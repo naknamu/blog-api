@@ -2,6 +2,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const homeRouter = require('./routes/home');
+const apiRouter = require('./routes/api');
+
 require('dotenv').config();
 
 // Create an instance of the Express app
@@ -33,9 +36,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Define routes
-app.get('/', (req, res) => {
-    res.send('Hello, world!');
-});
+app.use("/", homeRouter);
+app.use("/api", apiRouter);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
