@@ -12,7 +12,7 @@ const commentSchema = new Schema({
     },
     blogPost: {
         type: Schema.Types.ObjectId,
-        ref: 'BlogPost',
+        ref: 'Post',
         required: true
     }
 }, { timestamp: true });
