@@ -5,7 +5,7 @@ const readingTime = require('reading-time');
 const blogPostSchema = new Schema({
     title: {
         type: String,
-        require: true
+        required: true
     },
     author: {
         type: Schema.Types.ObjectId,
