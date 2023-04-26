@@ -8,8 +8,7 @@ const postSchema = new Schema({
         required: true
     },
     author: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+        type: String,
         default: 'Jodel Del Valle'
     },
     minute_read: {
@@ -35,7 +34,7 @@ const postSchema = new Schema({
     publishedDate: {
         type: Date,
     },
-}, { timestamp: true })
+}, { timestamps: true })
 
 postSchema.pre('save', function(next) {
     // Set current date and time when published is set to true

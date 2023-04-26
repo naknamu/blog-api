@@ -6,9 +6,8 @@ const categorySchema = new Schema({
       type: String,
       required: true,
     },
-    blogPost: {
-        type: Schema.Types.ObjectId,
-        ref: 'Post',
+    detail: {
+        type: String,
         required: true
     }
 });
