@@ -7,7 +7,7 @@ const blogPost_controller = require('../controllers/postController');
 // Get API homepage
 router.get("/", blogPost_controller.home);
 
-/// BLOG POSTS ROUTES ///
+/***  BLOG POSTS ROUTES ***/
 
 // GET request for creating blog post
 router.get("/post/create", blogPost_controller.blogPost_create_get);
