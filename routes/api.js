@@ -5,6 +5,7 @@ const router = express.Router();
 const blogPost_controller = require('../controllers/postController');
 const comment_controller = require("../controllers/commentController");
 const category_controller = require("../controllers/categoryController");
+const tag_controller = require("../controllers/tagController");
 
 // Get API homepage
 router.get("/", blogPost_controller.home);
@@ -82,5 +83,33 @@ router.get("/categories", category_controller.category_list);
 
 // GET request for a single category
 router.get("/categories/:categoryid", category_controller.category_detail);
+
+
+/***  TAG ROUTES ***/
+
+// GET request for creating tag
+router.get("/tag/create", tag_controller.tag_create_get);
+
+// POST request for creating tag
+router.post("/tag/create", tag_controller.tag_create_post);
+
+// GET request for deleting tag
+router.get("/tag/:tagid/delete", tag_controller.tag_delete_get);
+
+// POST request for deleting tag
+router.post("/tag/:tagid/delete", tag_controller.tag_delete_post);
+
+// GET request for updating tag
+router.get("/tag/:tagid/update", tag_controller.tag_update_get);
+
+// POST request for updating tag
+router.post("/tag/:tagid/update", tag_controller.tag_update_post);
+
+// GET request for list of tags
+router.get("/tags", tag_controller.tag_list);
+
+// GET request for a specific tag
+router.get("/tags/:tagid", tag_controller.tag_detail);
+
 
 module.exports = router;
