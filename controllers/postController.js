@@ -14,7 +14,7 @@ blogPost_list = asyncHandler( async(req, res, next) => {
 
 // Display detail page for a specific Blog Post.
 blogPost_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Blog Post detail: ${req.params.id}`);
+    res.send(`NOT IMPLEMENTED: Blog Post detail: ${req.params.postid}`);
 });
 
 // Display Blog Post create form on GET.
@@ -29,22 +29,22 @@ blogPost_create_post = asyncHandler(async (req, res, next) => {
 
 // Display Blog Post delete form on GET.
 blogPost_delete_get = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Blog Post delete GET: ${req.params.id} `);
+    res.send(`NOT IMPLEMENTED: Blog Post delete GET: ${req.params.postid} `);
 });
 
 // Handle Blog Post delete on POST.
 blogPost_delete_post = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Blog Post delete POST: ${req.params.id}`);
+    res.send(`NOT IMPLEMENTED: Blog Post delete POST: ${req.params.postid}`);
 });
 
 // Display Blog Post update form on GET.
 blogPost_update_get = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Blog Post update GET: ${req.params.id}`);
+    res.send(`NOT IMPLEMENTED: Blog Post update GET: ${req.params.postid}`);
 });
 
 // Handle Blog Post update on POST.
 blogPost_update_post = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Blog Post update POST: ${req.params.id}`);
+    res.send(`NOT IMPLEMENTED: Blog Post update POST: ${req.params.postid}`);
 });
 
 module.exports = {
