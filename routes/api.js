@@ -6,9 +6,12 @@ const blogPost_controller = require('../controllers/postController');
 const comment_controller = require("../controllers/commentController");
 const category_controller = require("../controllers/categoryController");
 const tag_controller = require("../controllers/tagController");
+const home_controller = require('../controllers/homeController')
+
+/***  HOME ROUTE ***/
 
 // Get API homepage
-router.get("/", blogPost_controller.home);
+router.get("/", home_controller.home);
 
 /***  BLOG POSTS ROUTES ***/
 

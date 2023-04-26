@@ -2,11 +2,6 @@ const Post = require("../model/post");
 const asyncHandler = require('express-async-handler')
 
 
-// SITE HOMEPAGE
-home = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Site Home Page");
-});
-
 // Display list of all Blog Posts
 blogPost_list = asyncHandler( async(req, res, next) => {
     res.send("NOT IMPLEMENTED: Blog Post LIST")
@@ -48,7 +43,6 @@ blogPost_update_post = asyncHandler(async (req, res, next) => {
 });
 
 module.exports = {
-    home,
     blogPost_list,
     blogPost_detail,
     blogPost_create_get,

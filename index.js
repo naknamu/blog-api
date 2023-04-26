@@ -2,7 +2,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const homeRouter = require('./routes/home');
 const apiRouter = require('./routes/api');
 
 require('dotenv').config();
@@ -36,7 +35,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Define routes
-app.use("/", homeRouter);
 app.use("/api", apiRouter);
 
 // Start the server
