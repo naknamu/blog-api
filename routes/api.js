@@ -4,6 +4,7 @@ const router = express.Router();
 // Require controller modules.
 const blogPost_controller = require('../controllers/postController');
 const comment_controller = require("../controllers/commentController");
+const category_controller = require("../controllers/categoryController");
 
 // Get API homepage
 router.get("/", blogPost_controller.home);
@@ -34,6 +35,7 @@ router.get("/posts", blogPost_controller.blogPost_list);
 // GET request for a single blog post
 router.get("/posts/:postid", blogPost_controller.blogPost_detail);
 
+
 /***  COMMENT ROUTES ***/
 
 // GET request for creating comment
@@ -53,5 +55,32 @@ router.get("/posts/:postid/comment/:commentid/update", comment_controller.commen
 
 // POST request for updating comment
 router.post("/posts/:postid/comment/:commentid/update", comment_controller.comment_update_post)
+
+
+/***  CATEGORY ROUTES ***/
+
+// GET request for creating category
+router.get("/category/create", category_controller.category_create_get);
+
+// POST request for creating category
+router.post("/category/create", category_controller.category_create_post);
+
+// GET request for deleting category
+router.get("/category/:categoryid/delete", category_controller.category_delete_get);
+
+// POST request for deleting category
+router.post("/category/:categoryid/delete", category_controller.category_delete_post);
+
+// GET request for updating category
+router.get("/category/:categoryid/update", category_controller.category_update_get);
+
+// POST request for updating category
+router.post("/category/:categoryid/update", category_controller.category_update_post);
+
+// GET request for list of categories
+router.get("/categories", category_controller.category_list);
+
+// GET request for a single category
+router.get("/categories/:categoryid", category_controller.category_detail);
 
 module.exports = router;
