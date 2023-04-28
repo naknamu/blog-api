@@ -1,15 +1,20 @@
 const Post = require("../model/post");
 const asyncHandler = require('express-async-handler')
+const { body, validationResult } = require("express-validator");
 
 
 // Display list of all Blog Posts
 blogPost_list = asyncHandler( async(req, res, next) => {
-    res.send("NOT IMPLEMENTED: Blog Post LIST")
+    const allBlogPost = await Post.find({}, "title published publishedDate").exec();
+
+    res.json(allBlogPost);
 })
 
 // Display detail page for a specific Blog Post.
 blogPost_detail = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Blog Post detail: ${req.params.postid}`);
+    const blogPost = await Post.findOne({_id: req.params.postid}).exec();
+
+    res.json(blogPost);
 });
 
 // Display Blog Post create form on GET.
@@ -18,9 +23,52 @@ blogPost_create_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle Blog Post create on POST.
-blogPost_create_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Blog Post create POST");
-});
+blogPost_create_post = [
+    // Convert tags to an array
+    (req, res, next) => {
+        if (!(req.body.tags instanceof Array)) {
+          if (typeof req.body.tags === "undefined") req.body.tags = [];
+          else req.body.tags = new Array(req.body.tags);
+        }
+
+        next();
+    },
+
+    // Validate and sanitize fields.
+    body("title", "Title must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+    body("content", "Content must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+    body("category", "Category must not be empty").trim().isLength({ min: 1 }).escape(),
+    body("tags.*").escape(),
+    
+
+    asyncHandler(async (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Book object with escaped and trimmed data.
+        const blogPost = new Post({
+            title: req.body.title,
+            content: req.body.content,
+            category: req.body.category,
+            tags: req.body.tags,
+            published: req.body.published,
+        });
+
+        if (!errors.isEmpty()) {
+            res.json(errors.mapped())
+        } else {
+            await blogPost.save();
+            res.json({message: `Successfully saved ${req.body.title}`});
+        }
+    }
+)];
 
 // Display Blog Post delete form on GET.
 blogPost_delete_get = asyncHandler(async (req, res, next) => {

@@ -12,9 +12,9 @@ home = asyncHandler(async (req, res, next) => {
         categories,
         tags
     ] =  await Promise.all([
-        Post.find({published: true}).sort({publishedDate: -1}).exec(),
-        Category.find({}).sort({name: 1}).exec(),
-        Tag.find({}).sort({name: 1}).exec()
+        Post.find({},  "title minute_read category published publishedDate").sort({createdAt: -1}).exec(),
+        Category.find({}, "name").sort({name: 1}).exec(),
+        Tag.find({}, "name").sort({name: 1}).exec()
     ])
 
     const data = {
