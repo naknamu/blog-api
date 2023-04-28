@@ -45,7 +45,7 @@ postSchema.pre('save', function(next) {
     // Calculate the minute read based on the content
     const { minutes } = readingTime(this.content);
     this.minute_read = Math.ceil(minutes);
-
+    
     next();
 })
 
