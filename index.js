@@ -1,11 +1,11 @@
 // Require necessary libraries
-const express = require('express');
-const mongoose = require('mongoose');
-const morgan = require('morgan');
+const express = require("express");
+const mongoose = require("mongoose");
+const morgan = require("morgan");
 const createError = require("http-errors");
-const apiRouter = require('./routes/api');
+const apiRouter = require("./routes/api");
 
-require('dotenv').config();
+require("dotenv").config();
 
 // Create an instance of the Express app
 const app = express();
@@ -15,23 +15,24 @@ let mongoDB = process.env.MONGO_URI_DEV;
 
 // If in prod environment, use prod database
 if (process.env.NODE_ENV === "production") {
-    mongoDB = process.env.MONGO_URI;
+  mongoDB = process.env.MONGO_URI;
 }
 
 const MONGODB_URI = process.env.MONGODB_URI;
-mongoose.connect(mongoDB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose
+  .connect(mongoDB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
-    console.log('Connected to MongoDB');
-})
+    console.log("Connected to MongoDB");
+  })
   .catch((err) => {
-    console.error('Error connecting to MongoDB:', err.message);
-});
+    console.error("Error connecting to MongoDB:", err.message);
+  });
 
 // Set up middleware
-app.use(morgan('dev')); // logs requests to the console
+app.use(morgan("dev")); // logs requests to the console
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -48,10 +49,10 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-  
+
   // render the error page
   res.status(err.status || 500);
-  res.json({error: err});
+  res.json({ error: err });
 });
 
 // Start the server
