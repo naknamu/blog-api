@@ -9,6 +9,7 @@ home = asyncHandler(async (req, res, next) => {
   // Get details of published blog posts, categories and tags (in parallel)
   const [blogPosts, categories, tags] = await Promise.all([
     Post.find({}, "title minute_read category published publishedDate")
+      .populate("category")
       .sort({ createdAt: -1 })
       .exec(),
     Category.find({}, "name").sort({ name: 1 }).exec(),

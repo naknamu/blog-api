@@ -36,6 +36,9 @@ router.post("/post/:postid/update", blogPost_controller.blogPost_update_post);
 // GET request for list of blog post
 router.get("/posts", blogPost_controller.blogPost_list);
 
+// GET request for list of published blog post
+router.get("/posts/published", blogPost_controller.blogPost_list_published);
+
 // GET request for a single blog post
 router.get("/posts/:postid", blogPost_controller.blogPost_detail);
 

@@ -11,6 +11,13 @@ blogPost_list = asyncHandler(async (req, res, next) => {
   res.status(200).json(allBlogPost);
 });
 
+// Display list of all published Blog Posts
+blogPost_list_published = asyncHandler(async (req, res, next) => {
+  const publishedBlogPosts = await Post.find({published: true}, "category title author minute_read publishedDate").populate("category");
+
+  res.status(200).json(publishedBlogPosts);
+});
+
 // Display detail page for a specific Blog Post.
 blogPost_detail = asyncHandler(async (req, res, next) => {
   const blogPost = await Post.findById(req.params.postid).populate(
@@ -167,6 +174,7 @@ blogPost_update_post = [
 
 module.exports = {
   blogPost_list,
+  blogPost_list_published,
   blogPost_detail,
   blogPost_create_get,
   blogPost_create_post,
