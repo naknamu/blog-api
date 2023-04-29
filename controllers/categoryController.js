@@ -7,7 +7,7 @@ const { body, validationResult } = require("express-validator");
 category_list = asyncHandler(async (req, res, next) => {
   const categories = await Category.find({}).exec();
 
-  res.json(categories);
+  res.status(200).json(categories);
 });
 
 // Display detail page for a specific Category.
@@ -17,7 +17,7 @@ category_detail = asyncHandler(async (req, res, next) => {
     Post.find({ category: req.params.categoryid }, "title published").exec(),
   ]);
 
-  res.json({ category, blogPosts });
+  res.status(200).json({ category, blogPosts });
 });
 
 // Display Category create form on GET.
@@ -55,7 +55,7 @@ category_create_post = [
       res.status(400).json(errors.mapped());
     } else {
       await category.save();
-      res.json({ message: `Successfully saved category: ${req.body.name}` });
+      res.status(200).json({ message: `Successfully saved category: ${req.body.name}` });
     }
   }),
 ];
@@ -69,14 +69,14 @@ category_delete_get = asyncHandler(async (req, res, next) => {
 category_delete_post = asyncHandler(async (req, res, next) => {
   const category = await Category.findByIdAndRemove(req.params.categoryid);
 
-  res.json({ message: `Deleted Category: ${category.name}` });
+  res.status(200).json({ message: `Deleted Category: ${category.name}` });
 });
 
 // Display Category update form on GET.
 category_update_get = asyncHandler(async (req, res, next) => {
   const category = await Category.findById(req.params.categoryid).exec();
 
-  res.json(category);
+  res.status(200).json(category);
 });
 
 // Handle Category update on POST.
@@ -124,7 +124,7 @@ category_update_post = [
       // Wait for the update to complete
       await updatedCategory.save();
 
-      res.json({ message: `Successfully updated ${updatedCategory.name}` });
+      res.status(200).json({ message: `Successfully updated ${updatedCategory.name}` });
     }
   }),
 ];

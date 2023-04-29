@@ -8,7 +8,7 @@ const { body, validationResult } = require("express-validator");
 blogPost_list = asyncHandler(async (req, res, next) => {
   const allBlogPost = await Post.find({}, "title published publishedDate");
 
-  res.json(allBlogPost);
+  res.status(200).json(allBlogPost);
 });
 
 // Display detail page for a specific Blog Post.
@@ -17,7 +17,7 @@ blogPost_detail = asyncHandler(async (req, res, next) => {
     "category tags"
   );
 
-  res.json(blogPost);
+  res.status(200).json(blogPost);
 });
 
 // Display Blog Post create form on GET.
@@ -27,7 +27,7 @@ blogPost_create_get = asyncHandler(async (req, res, next) => {
     Tag.find({}, "name").sort({ name: -1 }).exec(),
   ]);
 
-  res.json({ categories, tags });
+  res.status(200).json({ categories, tags });
 });
 
 // Handle Blog Post create on POST.
@@ -75,7 +75,7 @@ blogPost_create_post = [
       res.status(400).json(errors.mapped());
     } else {
       await blogPost.save();
-      res.json({ message: `Successfully saved ${req.body.title}` });
+      res.status(200).json({ message: `Successfully saved ${req.body.title}` });
     }
   }),
 ];
@@ -89,7 +89,7 @@ blogPost_delete_get = asyncHandler(async (req, res, next) => {
 blogPost_delete_post = asyncHandler(async (req, res, next) => {
   const blogPost = await Post.findByIdAndRemove(req.params.postid);
 
-  res.json({ message: `Deleted Blog Post: ${blogPost.title}` });
+  res.status(200).json({ message: `Deleted Blog Post: ${blogPost.title}` });
 });
 
 // Display Blog Post update form on GET.
@@ -158,7 +158,7 @@ blogPost_update_post = [
       // Wait for the update to complete
       await newBlogPost.save();
 
-      res.json({ message: `Successfully updated ${newBlogPost.title}` });
+      res.status(200).json({ message: `Successfully updated ${newBlogPost.title}` });
     }
   }),
 ];

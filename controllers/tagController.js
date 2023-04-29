@@ -7,7 +7,7 @@ const { body, validationResult } = require("express-validator");
 tag_list = asyncHandler(async (req, res, next) => {
   const tags = await Tag.find({}).exec();
 
-  res.json(tags);
+  res.status(200).json(tags);
 });
 
 // Display detail page for a specific tag.
@@ -17,7 +17,7 @@ tag_detail = asyncHandler(async (req, res, next) => {
     Post.find({ tags: req.params.tagid }, "title published").exec(),
   ]);
 
-  res.json({ tag, blogPosts });
+  res.status(200).json({ tag, blogPosts });
 });
 
 // Display tag create form on GET.
@@ -56,7 +56,7 @@ tag_create_post = [
       res.status(400).json(errors.mapped());
     } else {
       await tag.save();
-      res.json({ message: `Successfully saved tag: ${req.body.name}` });
+      res.status(200).json({ message: `Successfully saved tag: ${req.body.name}` });
     }
   }
 )];
@@ -70,14 +70,14 @@ tag_delete_get = asyncHandler(async (req, res, next) => {
 tag_delete_post = asyncHandler(async (req, res, next) => {
   const tag = await Tag.findByIdAndRemove(req.params.tagid);
 
-  res.json({ message: `Deleted Tag: ${tag.name}` });
+  res.status(200).json({ message: `Deleted Tag: ${tag.name}` });
 });
 
 // Display tag update form on GET.
 tag_update_get = asyncHandler(async (req, res, next) => {
   const tag = await Tag.findById(req.params.tagid).exec();
 
-  res.json(tag);
+  res.status(200).json(tag);
 });
 
 // Handle tag update on POST.
@@ -124,7 +124,7 @@ tag_update_post = [
       // Wait for the update to complete
       await updatedTag.save();
 
-      res.json({ message: `Successfully updated ${updatedTag.name}` });
+      res.status(200).json({ message: `Successfully updated ${updatedTag.name}` });
     }
   }
 )];

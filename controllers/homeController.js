@@ -21,7 +21,7 @@ home = asyncHandler(async (req, res, next) => {
     tags,
   };
 
-  res.json(data);
+  res.status(200).json(data);
 });
 
 module.exports = { home };

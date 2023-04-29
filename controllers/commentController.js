@@ -9,7 +9,7 @@ comment_list = asyncHandler(async (req, res, next) => {
     "name message createdAt"
   ).exec();
 
-  res.json(comments);
+  res.status(200).json(comments);
 });
 
 // Display Comment create form on GET.
@@ -50,7 +50,7 @@ comment_create_post = [
       res.status(400).json(errors.mapped());
     } else {
       await comment.save();
-      res.json({ message: `Successfully saved comment from ${req.body.name}` });
+      res.status(200).json({ message: `Successfully saved comment from ${req.body.name}` });
     }
   }),
 ];
@@ -64,7 +64,7 @@ comment_delete_get = asyncHandler(async (req, res, next) => {
 comment_delete_post = asyncHandler(async (req, res, next) => {
   const comment = await Comment.findByIdAndRemove(req.params.commentid);
 
-  res.json({ message: `Deleted Comment by: ${comment.name}` });
+  res.status(200).json({ message: `Deleted Comment by: ${comment.name}` });
 });
 
 // Display Comment update form on GET.
