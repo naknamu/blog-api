@@ -50,7 +50,9 @@ comment_create_post = [
       res.status(400).json(errors.mapped());
     } else {
       await comment.save();
-      res.status(200).json({ message: `Successfully saved comment from ${req.body.name}` });
+      res
+        .status(200)
+        .json({ message: `Successfully saved comment from ${req.body.name}` });
     }
   }),
 ];

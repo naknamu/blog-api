@@ -55,7 +55,9 @@ category_create_post = [
       res.status(400).json(errors.mapped());
     } else {
       await category.save();
-      res.status(200).json({ message: `Successfully saved category: ${req.body.name}` });
+      res
+        .status(200)
+        .json({ message: `Successfully saved category: ${req.body.name}` });
     }
   }),
 ];
@@ -124,7 +126,9 @@ category_update_post = [
       // Wait for the update to complete
       await updatedCategory.save();
 
-      res.status(200).json({ message: `Successfully updated ${updatedCategory.name}` });
+      res
+        .status(200)
+        .json({ message: `Successfully updated ${updatedCategory.name}` });
     }
   }),
 ];

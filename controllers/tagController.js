@@ -27,21 +27,20 @@ tag_create_get = asyncHandler(async (req, res, next) => {
 
 // Handle tag create form on POST.
 tag_create_post = [
-
   // Validate and sanitize fields.
   body("name")
-  .trim()
-  .isLength({ min: 1 })
-  .withMessage("Name must not be empty")
-  .matches(/^[A-Za-z\s]+$/)
-  .withMessage("Name must be alphabetic.")
-  .escape(),
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Name must not be empty")
+    .matches(/^[A-Za-z\s]+$/)
+    .withMessage("Name must be alphabetic.")
+    .escape(),
   body("detail")
-  .trim()
-  .isLength({ min: 1 })
-  .withMessage("Tag detail is required")
-  .escape(),
-  
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Tag detail is required")
+    .escape(),
+
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
@@ -56,10 +55,12 @@ tag_create_post = [
       res.status(400).json(errors.mapped());
     } else {
       await tag.save();
-      res.status(200).json({ message: `Successfully saved tag: ${req.body.name}` });
+      res
+        .status(200)
+        .json({ message: `Successfully saved tag: ${req.body.name}` });
     }
-  }
-)];
+  }),
+];
 
 // Display tag delete form on GET.
 tag_delete_get = asyncHandler(async (req, res, next) => {
@@ -82,20 +83,19 @@ tag_update_get = asyncHandler(async (req, res, next) => {
 
 // Handle tag update on POST.
 tag_update_post = [
-
   // Validate and sanitize fields.
   body("name")
-  .trim()
-  .isLength({ min: 1 })
-  .withMessage("Name must not be empty")
-  .matches(/^[A-Za-z\s]+$/)
-  .withMessage("Name must be alphabetic.")
-  .escape(),
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Name must not be empty")
+    .matches(/^[A-Za-z\s]+$/)
+    .withMessage("Name must be alphabetic.")
+    .escape(),
   body("detail")
-  .trim()
-  .isLength({ min: 1 })
-  .withMessage("Tag detail is required")
-  .escape(),
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Tag detail is required")
+    .escape(),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
@@ -105,29 +105,27 @@ tag_update_post = [
     const tag = new Tag({
       name: req.body.name,
       detail: req.body.detail,
-      _id: req.params.tagid
+      _id: req.params.tagid,
     });
 
     if (!errors.isEmpty()) {
       res.status(400).json(errors.mapped());
     } else {
-      const updatedTag = await Tag.findByIdAndUpdate(
-        req.params.tagid,
-        tag,
-        {
-          new: true, // to return the updated document
-          runValidators: true, // to ensure that any validation rules are applied.
-          context: "query", //  to ensure that the pre-save middleware is triggered
-        }
-      );
+      const updatedTag = await Tag.findByIdAndUpdate(req.params.tagid, tag, {
+        new: true, // to return the updated document
+        runValidators: true, // to ensure that any validation rules are applied.
+        context: "query", //  to ensure that the pre-save middleware is triggered
+      });
 
       // Wait for the update to complete
       await updatedTag.save();
 
-      res.status(200).json({ message: `Successfully updated ${updatedTag.name}` });
+      res
+        .status(200)
+        .json({ message: `Successfully updated ${updatedTag.name}` });
     }
-  }
-)];
+  }),
+];
 
 module.exports = {
   tag_list,

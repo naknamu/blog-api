@@ -158,7 +158,9 @@ blogPost_update_post = [
       // Wait for the update to complete
       await newBlogPost.save();
 
-      res.status(200).json({ message: `Successfully updated ${newBlogPost.title}` });
+      res
+        .status(200)
+        .json({ message: `Successfully updated ${newBlogPost.title}` });
     }
   }),
 ];
