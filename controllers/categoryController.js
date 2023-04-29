@@ -39,8 +39,6 @@ category_create_post = [
     .trim()
     .isLength({ min: 1 })
     .withMessage("Category detail is required")
-    .isLength({ max: 300 })
-    .withMessage("You exceeded the maximum characters allowed which is 300")
     .escape(),
 
   asyncHandler(async (req, res, next) => {
@@ -113,7 +111,7 @@ category_update_post = [
     if (!errors.isEmpty()) {
       res.status(400).json(errors.mapped());
     } else {
-      const newCategory = await Category.findByIdAndUpdate(
+      const updatedCategory = await Category.findByIdAndUpdate(
         req.params.categoryid,
         category,
         {
@@ -124,9 +122,9 @@ category_update_post = [
       );
 
       // Wait for the update to complete
-      await newCategory.save();
+      await updatedCategory.save();
 
-      res.json({ message: `Successfully updated ${category.name}` });
+      res.json({ message: `Successfully updated ${updatedCategory.name}` });
     }
   }),
 ];
