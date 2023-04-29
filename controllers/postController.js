@@ -95,8 +95,6 @@ blogPost_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display Blog Post update form on GET.
 blogPost_update_get = asyncHandler(async (req, res, next) => {
-    // res.send(`NOT IMPLEMENTED: Blog Post update GET: ${req.params.postid}`);
-
     const blogPost = await Post.findById(req.params.postid).populate("category tags");
 
     res.status(200).json(blogPost);
