@@ -60,6 +60,9 @@ router.get("/posts/:postid/comment/:commentid/update", comment_controller.commen
 // POST request for updating comment
 router.post("/posts/:postid/comment/:commentid/update", comment_controller.comment_update_post)
 
+// GET request for list of comments in a specific blog
+router.get("/posts/:postid/comments", comment_controller.comment_list);
+
 
 /***  CATEGORY ROUTES ***/
 

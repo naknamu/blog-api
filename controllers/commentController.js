@@ -1,9 +1,12 @@
 const Comment = require("../model/comment");
 const asyncHandler = require('express-async-handler')
+const { body, validationResult } = require("express-validator");
 
 // Display list of all Comments
 comment_list = asyncHandler( async(req, res, next) => {
-    res.send("NOT IMPLEMENTED: Comment LIST")
+    const comments = await Comment.find({blogPost: req.params.postid}, "name message createdAt").exec();
+
+    res.json(comments);
 })
 
 // Display Comment create form on GET.
@@ -12,9 +15,42 @@ comment_create_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle Comment create on POST.
-comment_create_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Comment create POST");
-});
+comment_create_post = [
+    // Validate and sanitize fields.
+    body("name")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Name must not be empty")
+    .matches(/^[A-Za-z\s]+$/)
+    .withMessage("Name must be alphabetic.")
+    .escape(),
+    body("message")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Your message is required")
+    .isLength({ max: 300 })
+    .withMessage("You exceeded the maximum characters allowed which is 300")
+    .escape(),
+    
+    asyncHandler(async (req, res, next) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create a Comment object with escaped and trimmed data.
+        const comment = new Comment({
+            name: req.body.name,
+            message: req.body.message,
+            blogPost: req.params.postid
+        })
+
+        if (!errors.isEmpty()) {
+            res.status(400).json(errors.mapped())
+        } else {
+            await comment.save();
+            res.json({message: `Successfully saved comment from ${req.body.name}`});
+        }
+    }
+)];
 
 // Display Comment delete form on GET.
 comment_delete_get = asyncHandler(async (req, res, next) => {
@@ -23,7 +59,9 @@ comment_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle Comment delete on POST.
 comment_delete_post = asyncHandler(async (req, res, next) => {
-    res.send(`NOT IMPLEMENTED: Comment delete POST: ${req.params.commentid}`);
+    const comment = await Comment.findByIdAndRemove(req.params.commentid);
+
+    res.json({message: `Deleted Comment by: ${comment.name}`})
 });
 
 // Display Comment update form on GET.
