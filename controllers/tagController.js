@@ -1,14 +1,23 @@
 const Tag = require("../model/tag");
+const Post = require("../model/post");
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
 
 // Display list of all tags
 tag_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: TAG LIST");
+  const tags = await Tag.find({}).exec();
+
+  res.json(tags);
 });
 
 // Display detail page for a specific tag.
 tag_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: tag detail: ${req.params.tagid}`);
+  const [tag, blogPosts] = await Promise.all([
+    Tag.findById(req.params.tagid).exec(),
+    Post.find({ tags: req.params.tagid }, "title published").exec(),
+  ]);
+
+  res.json({ tag, blogPosts });
 });
 
 // Display tag create form on GET.
@@ -17,9 +26,40 @@ tag_create_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle tag create form on POST.
-tag_create_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: tag create POST");
-});
+tag_create_post = [
+
+  // Validate and sanitize fields.
+  body("name")
+  .trim()
+  .isLength({ min: 1 })
+  .withMessage("Name must not be empty")
+  .matches(/^[A-Za-z\s]+$/)
+  .withMessage("Name must be alphabetic.")
+  .escape(),
+  body("detail")
+  .trim()
+  .isLength({ min: 1 })
+  .withMessage("Tag detail is required")
+  .escape(),
+  
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a Tag object with escaped and trimmed data.
+    const tag = new Tag({
+      name: req.body.name,
+      detail: req.body.detail,
+    });
+
+    if (!errors.isEmpty()) {
+      res.status(400).json(errors.mapped());
+    } else {
+      await tag.save();
+      res.json({ message: `Successfully saved tag: ${req.body.name}` });
+    }
+  }
+)];
 
 // Display tag delete form on GET.
 tag_delete_get = asyncHandler(async (req, res, next) => {
@@ -28,18 +68,66 @@ tag_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle tag delete on POST.
 tag_delete_post = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: tag delete POST: ${req.params.tagid}`);
+  const tag = await Tag.findByIdAndRemove(req.params.tagid);
+
+  res.json({ message: `Deleted Tag: ${tag.name}` });
 });
 
 // Display tag update form on GET.
 tag_update_get = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: tag update GET: ${req.params.tagid}`);
+  const tag = await Tag.findById(req.params.tagid).exec();
+
+  res.json(tag);
 });
 
 // Handle tag update on POST.
-tag_update_post = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: tag update POST: ${req.params.tagid}`);
-});
+tag_update_post = [
+
+  // Validate and sanitize fields.
+  body("name")
+  .trim()
+  .isLength({ min: 1 })
+  .withMessage("Name must not be empty")
+  .matches(/^[A-Za-z\s]+$/)
+  .withMessage("Name must be alphabetic.")
+  .escape(),
+  body("detail")
+  .trim()
+  .isLength({ min: 1 })
+  .withMessage("Tag detail is required")
+  .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a Tag object with escaped and trimmed data.
+    const tag = new Tag({
+      name: req.body.name,
+      detail: req.body.detail,
+      _id: req.params.tagid
+    });
+
+    if (!errors.isEmpty()) {
+      res.status(400).json(errors.mapped());
+    } else {
+      const updatedTag = await Tag.findByIdAndUpdate(
+        req.params.tagid,
+        tag,
+        {
+          new: true, // to return the updated document
+          runValidators: true, // to ensure that any validation rules are applied.
+          context: "query", //  to ensure that the pre-save middleware is triggered
+        }
+      );
+
+      // Wait for the update to complete
+      await updatedTag.save();
+
+      res.json({ message: `Successfully updated ${updatedTag.name}` });
+    }
+  }
+)];
 
 module.exports = {
   tag_list,
