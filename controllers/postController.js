@@ -13,7 +13,10 @@ blogPost_list = asyncHandler(async (req, res, next) => {
 
 // Display list of all published Blog Posts
 blogPost_list_published = asyncHandler(async (req, res, next) => {
-  const publishedBlogPosts = await Post.find({published: true}, "category title author minute_read publishedDate").populate("category");
+  const publishedBlogPosts = 
+  await Post.find({published: true}, "category title author minute_read publishedDate")
+    .populate("category")
+    .sort({publishedDate: -1});
 
   res.status(200).json(publishedBlogPosts);
 });
