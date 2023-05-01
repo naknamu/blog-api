@@ -7,7 +7,9 @@ comment_list = asyncHandler(async (req, res, next) => {
   const comments = await Comment.find(
     { blogPost: req.params.postid },
     "name message createdAt"
-  ).exec();
+  )
+  .sort({createdAt: -1})
+  .exec();
 
   res.status(200).json(comments);
 });
