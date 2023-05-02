@@ -14,7 +14,7 @@ category_list = asyncHandler(async (req, res, next) => {
 category_detail = asyncHandler(async (req, res, next) => {
   const [category, blogPosts] = await Promise.all([
     Category.findById(req.params.categoryid).exec(),
-    Post.find({ category: req.params.categoryid }, "title published").exec(),
+    Post.find({ category: req.params.categoryid }, "title published publishedDate").exec(),
   ]);
 
   res.status(200).json({ category, blogPosts });
