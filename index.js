@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const createError = require("http-errors");
 const apiRouter = require("./routes/api");
+const cors = require('cors');
 
 require("dotenv").config();
 
@@ -18,7 +19,6 @@ if (process.env.NODE_ENV === "production") {
   mongoDB = process.env.MONGO_URI;
 }
 
-const MONGODB_URI = process.env.MONGODB_URI;
 mongoose
   .connect(mongoDB, {
     useNewUrlParser: true,
@@ -29,7 +29,21 @@ mongoose
   })
   .catch((err) => {
     console.error("Error connecting to MongoDB:", err.message);
-  });
+});
+
+// Allow only selected frontends
+const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Check if the origin is allowed
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 
 // Set up middleware
 app.use(morgan("dev")); // logs requests to the console
