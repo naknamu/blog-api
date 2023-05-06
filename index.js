@@ -47,18 +47,20 @@ app.use(compression()); // Compress all routes
 app.use(helmet());
 
 // Allow only selected frontends
-const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
+if (process.env.ALLOWED_ORIGINS) {
+  const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // Check if the origin is allowed
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+  app.use(cors({
+    origin: function (origin, callback) {
+      // Check if the origin is allowed
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
     }
-  }
-}));
+  }));
+}
 
 // Set up middleware
 app.use(morgan("dev")); // logs requests to the console
