@@ -14,7 +14,7 @@ blogPost_list = asyncHandler(async (req, res, next) => {
 // Display list of all published Blog Posts
 blogPost_list_published = asyncHandler(async (req, res, next) => {
   const publishedBlogPosts = 
-  await Post.find({published: true}, "category title author minute_read publishedDate")
+  await Post.find({published: true})
     .populate("category")
     .sort({publishedDate: -1});
 
@@ -67,6 +67,9 @@ blogPost_create_post = [
     .isLength({ min: 1 })
     .escape(),
   body("tags.*").escape(),
+  body("image_url", "Image url must not be empty")
+  .trim()
+  .isLength({ min: 1 }),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
@@ -79,6 +82,7 @@ blogPost_create_post = [
       category: req.body.category,
       tags: req.body.tags,
       published: req.body.published,
+      image_url: req.body.image_url
     });
 
     if (!errors.isEmpty()) {
@@ -137,6 +141,10 @@ blogPost_update_post = [
     .isLength({ min: 1 })
     .escape(),
   body("tags.*").escape(),
+  body("image_url", "Image url must not be empty")
+  .trim()
+  .isLength({ min: 1 })
+  .escape(),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
@@ -149,6 +157,7 @@ blogPost_update_post = [
       category: req.body.category,
       tags: req.body.tags,
       published: req.body.published,
+      image_url: req.body.image_url,
       _id: req.params.postid,
     });
 
