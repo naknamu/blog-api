@@ -143,8 +143,7 @@ blogPost_update_post = [
   body("tags.*").escape(),
   body("image_url", "Image url must not be empty")
   .trim()
-  .isLength({ min: 1 })
-  .escape(),
+  .isLength({ min: 1 }),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
