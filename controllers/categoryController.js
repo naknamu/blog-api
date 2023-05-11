@@ -95,8 +95,6 @@ category_update_post = [
     .trim()
     .isLength({ min: 1 })
     .withMessage("Category detail is required")
-    .isLength({ max: 300 })
-    .withMessage("You exceeded the maximum characters allowed which is 300")
     .escape(),
 
   asyncHandler(async (req, res, next) => {
