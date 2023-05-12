@@ -33,13 +33,11 @@ tag_create_post = [
     .isLength({ min: 1 })
     .withMessage("Name must not be empty")
     .matches(/^[A-Za-z\s]+$/)
-    .withMessage("Name must be alphabetic.")
-    .escape(),
+    .withMessage("Name must be alphabetic."),
   body("detail")
     .trim()
     .isLength({ min: 1 })
-    .withMessage("Tag detail is required")
-    .escape(),
+    .withMessage("Tag detail is required"),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
@@ -89,13 +87,11 @@ tag_update_post = [
     .isLength({ min: 1 })
     .withMessage("Name must not be empty")
     .matches(/^[A-Za-z\s]+$/)
-    .withMessage("Name must be alphabetic.")
-    .escape(),
+    .withMessage("Name must be alphabetic."),
   body("detail")
     .trim()
     .isLength({ min: 1 })
-    .withMessage("Tag detail is required")
-    .escape(),
+    .withMessage("Tag detail is required"),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
