@@ -140,14 +140,15 @@ blogPost_update_post = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("tags.*").escape(),
   body("image_url", "Image url must not be empty")
-  .trim()
-  .isLength({ min: 1 }),
+    .trim()
+    .isLength({ min: 1 }),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
+
+    console.log(req.body.tags);
 
     // Create a Book object with escaped and trimmed data.
     const blogPost = new Post({
