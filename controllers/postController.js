@@ -56,17 +56,13 @@ blogPost_create_post = [
 
   body("title", "Title must not be empty.")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
+    .isLength({ min: 1 }),
   body("content", "Content must not be empty.")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
+    .isLength({ min: 1 }),
   body("category", "Category must not be empty")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
-  body("tags.*").escape(),
+    .isLength({ min: 1 }),
   body("image_url", "Image url must not be empty")
   .trim()
   .isLength({ min: 1 }),
@@ -130,16 +126,13 @@ blogPost_update_post = [
   // Validate and sanitize fields.
   body("title", "Title must not be empty.")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
+    .isLength({ min: 1 }),
   body("content", "Content must not be empty.")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
+    .isLength({ min: 1 }),
   body("category", "Category must not be empty")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
+    .isLength({ min: 1 }),
   body("image_url", "Image url must not be empty")
     .trim()
     .isLength({ min: 1 }),
