@@ -104,9 +104,7 @@ blogPost_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display Blog Post update form on GET.
 blogPost_update_get = asyncHandler(async (req, res, next) => {
-  const blogPost = await Post.findById(req.params.postid).populate(
-    "category tags"
-  );
+  const blogPost = await Post.findById(req.params.postid);
 
   res.status(200).json(blogPost);
 });
