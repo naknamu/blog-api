@@ -7,6 +7,7 @@ const apiRouter = require("./routes/api");
 const cors = require('cors');
 const compression = require("compression");
 const helmet = require("helmet");
+const userRouter = require("./routes/user");
 
 require("dotenv").config();
 
@@ -68,6 +69,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Define routes
+app.use("/user", userRouter);
 app.use("/api", apiRouter);
 
 // catch 404 and forward to error handler
