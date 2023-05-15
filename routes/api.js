@@ -11,9 +11,6 @@ const home_controller = require("../controllers/homeController");
 // Require auth middleware
 const auth = require("../middleware/requireAuth");
 
-// Require auth for all blog API routes
-router.use(auth);
-
 /***  HOME ROUTE ***/
 
 // Get API homepage
