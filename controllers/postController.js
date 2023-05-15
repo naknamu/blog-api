@@ -139,8 +139,6 @@ blogPost_update_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    console.log(req.body.tags);
-
     // Create a Book object with escaped and trimmed data.
     const blogPost = new Post({
       title: req.body.title,
