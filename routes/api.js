@@ -22,19 +22,19 @@ router.get("/", home_controller.home);
 router.get("/post/create", blogPost_controller.blogPost_create_get);
 
 // POST request for creating blog post
-router.post("/post/create", blogPost_controller.blogPost_create_post);
+router.post("/post/create", auth, blogPost_controller.blogPost_create_post);
 
 // GET request for deleting blog post
 router.get("/post/:postid/delete", blogPost_controller.blogPost_delete_get);
 
 // POST request for deleting blog post
-router.post("/post/:postid/delete", blogPost_controller.blogPost_delete_post);
+router.post("/post/:postid/delete", auth, blogPost_controller.blogPost_delete_post);
 
 // GET request for updating blog post
 router.get("/post/:postid/update", blogPost_controller.blogPost_update_get);
 
 // POST request for updating blog post
-router.post("/post/:postid/update", blogPost_controller.blogPost_update_post);
+router.post("/post/:postid/update", auth, blogPost_controller.blogPost_update_post);
 
 // GET request for list of blog post
 router.get("/posts", blogPost_controller.blogPost_list);
@@ -68,6 +68,7 @@ router.get(
 // POST request for deleting comment
 router.post(
   "/posts/:postid/comment/:commentid/delete",
+  auth,
   comment_controller.comment_delete_post
 );
 
@@ -92,7 +93,7 @@ router.get("/posts/:postid/comments", comment_controller.comment_list);
 router.get("/category/create", category_controller.category_create_get);
 
 // POST request for creating category
-router.post("/category/create", category_controller.category_create_post);
+router.post("/category/create", auth, category_controller.category_create_post);
 
 // GET request for deleting category
 router.get(
@@ -103,6 +104,7 @@ router.get(
 // POST request for deleting category
 router.post(
   "/category/:categoryid/delete",
+  auth,
   category_controller.category_delete_post
 );
 
@@ -115,6 +117,7 @@ router.get(
 // POST request for updating category
 router.post(
   "/category/:categoryid/update",
+  auth,
   category_controller.category_update_post
 );
 
@@ -130,19 +133,19 @@ router.get("/categories/:categoryid", category_controller.category_detail);
 router.get("/tag/create", tag_controller.tag_create_get);
 
 // POST request for creating tag
-router.post("/tag/create", tag_controller.tag_create_post);
+router.post("/tag/create", auth, tag_controller.tag_create_post);
 
 // GET request for deleting tag
 router.get("/tag/:tagid/delete", tag_controller.tag_delete_get);
 
 // POST request for deleting tag
-router.post("/tag/:tagid/delete", tag_controller.tag_delete_post);
+router.post("/tag/:tagid/delete", auth, tag_controller.tag_delete_post);
 
 // GET request for updating tag
 router.get("/tag/:tagid/update", tag_controller.tag_update_get);
 
 // POST request for updating tag
-router.post("/tag/:tagid/update", tag_controller.tag_update_post);
+router.post("/tag/:tagid/update", auth, tag_controller.tag_update_post);
 
 // GET request for list of tags
 router.get("/tags", tag_controller.tag_list);
