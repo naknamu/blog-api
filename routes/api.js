@@ -151,7 +151,6 @@ router.post("/tag/:tagid/update", auth, tag_controller.tag_update_post);
 router.get("/tags", tag_controller.tag_list);
 
 // GET request for a specific tag
-// router.get("/tags/:tagid", tag_controller.tag_detail);
 router.get("/tags/:slug", tag_controller.tag_detail);
 
 module.exports = router;
