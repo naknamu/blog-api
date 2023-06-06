@@ -124,8 +124,8 @@ router.post(
 // GET request for list of categories
 router.get("/categories", category_controller.category_list);
 
-// GET request for a single category
-router.get("/categories/:categoryid", category_controller.category_detail);
+// GET request for a single category using SLUG
+router.get("/categories/:slug", category_controller.category_detail);
 
 /***  TAG ROUTES ***/
 
@@ -151,6 +151,7 @@ router.post("/tag/:tagid/update", auth, tag_controller.tag_update_post);
 router.get("/tags", tag_controller.tag_list);
 
 // GET request for a specific tag
-router.get("/tags/:tagid", tag_controller.tag_detail);
+// router.get("/tags/:tagid", tag_controller.tag_detail);
+router.get("/tags/:slug", tag_controller.tag_detail);
 
 module.exports = router;

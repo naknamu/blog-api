@@ -11,11 +11,20 @@ category_list = asyncHandler(async (req, res, next) => {
 });
 
 // Display detail page for a specific Category.
+// category_detail = asyncHandler(async (req, res, next) => {
+//   const [category, blogPosts] = await Promise.all([
+//     Category.findById(req.params.categoryid).exec(),
+//     Post.find({ category: req.params.categoryid }, "title published publishedDate").exec(),
+//   ]);
+
+//   res.status(200).json({ category, blogPosts });
+// });
+
 category_detail = asyncHandler(async (req, res, next) => {
-  const [category, blogPosts] = await Promise.all([
-    Category.findById(req.params.categoryid).exec(),
-    Post.find({ category: req.params.categoryid }, "title published publishedDate").exec(),
-  ]);
+
+  const category = await Category.findOne({ slug: req.params.slug }).exec();
+
+  const blogPosts = await Post.find({ category: category._id }, "title published publishedDate").exec();
 
   res.status(200).json({ category, blogPosts });
 });

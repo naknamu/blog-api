@@ -11,11 +11,20 @@ tag_list = asyncHandler(async (req, res, next) => {
 });
 
 // Display detail page for a specific tag.
+// tag_detail = asyncHandler(async (req, res, next) => {
+//   const [tag, blogPosts] = await Promise.all([
+//     Tag.findById(req.params.tagid).exec(),
+//     Post.find({ tags: req.params.tagid }, "title published publishedDate").exec(),
+//   ]);
+
+//   res.status(200).json({ tag, blogPosts });
+// });
+
 tag_detail = asyncHandler(async (req, res, next) => {
-  const [tag, blogPosts] = await Promise.all([
-    Tag.findById(req.params.tagid).exec(),
-    Post.find({ tags: req.params.tagid }, "title published publishedDate").exec(),
-  ]);
+  
+  const tag = await Tag.findOne({ slug: req.params.slug }).exec();
+
+  const blogPosts = await Post.find({ tags: tag._id }, "title published publishedDate").exec();
 
   res.status(200).json({ tag, blogPosts });
 });
