@@ -21,9 +21,9 @@ blogPost_list_published = asyncHandler(async (req, res, next) => {
   res.status(200).json(publishedBlogPosts);
 });
 
-// Display detail page for a specific Blog Post.
+// Display detail page for a specific Blog Post using SLUG.
 blogPost_detail = asyncHandler(async (req, res, next) => {
-  const blogPost = await Post.findById(req.params.postid).populate(
+  const blogPost = await Post.find({slug: req.params.slug}).populate(
     "category tags"
   );
 

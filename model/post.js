@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const readingTime = require("reading-time");
+const slugify = require("slugify");
 
 const postSchema = new Schema(
   {
@@ -41,6 +42,10 @@ const postSchema = new Schema(
     publishedDate: {
       type: Date,
     },
+    slug: {
+      type: String,
+      required: true,
+    }
   },
   { timestamps: true }
 );
@@ -54,6 +59,15 @@ postSchema.pre("save", function (next) {
   // Calculate the minute read based on the content
   const { minutes } = readingTime(this.content);
   this.minute_read = Math.ceil(minutes);
+
+  // Set slug based from the title
+  const post = this;
+  try {
+    const slug = slugify(post.title, { lower: true, strict: true });
+    post.slug = slug;
+  } catch (error) {
+    next(error); // Pass the error to the next middleware
+  }
 
   next();
 });
