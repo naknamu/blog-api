@@ -43,8 +43,7 @@ const postSchema = new Schema(
       type: Date,
     },
     slug: {
-      type: String,
-      required: true,
+      type: String
     }
   },
   { timestamps: true }

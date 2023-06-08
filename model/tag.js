@@ -12,8 +12,7 @@ const tagSchema = new Schema({
     required: true,
   },
   slug: {
-    type: String,
-    required: true,
+    type: String
   }
 });
 
