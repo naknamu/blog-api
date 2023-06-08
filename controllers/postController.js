@@ -6,7 +6,7 @@ const { body, validationResult } = require("express-validator");
 
 // Display list of all Blog Posts
 blogPost_list = asyncHandler(async (req, res, next) => {
-  const allBlogPost = await Post.find({}, "title published publishedDate");
+  const allBlogPost = await Post.find({}, "title published publishedDate slug");
 
   res.status(200).json(allBlogPost);
 });
