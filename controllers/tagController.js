@@ -14,7 +14,7 @@ tag_detail = asyncHandler(async (req, res, next) => {
   
   const tag = await Tag.findOne({ slug: req.params.slug }).exec();
 
-  const blogPosts = await Post.find({ tags: tag._id }, "title published publishedDate").exec();
+  const blogPosts = await Post.find({ tags: tag._id }).exec();
 
   res.status(200).json({ tag, blogPosts });
 });

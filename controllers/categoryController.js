@@ -14,7 +14,7 @@ category_detail = asyncHandler(async (req, res, next) => {
 
   const category = await Category.findOne({ slug: req.params.slug }).exec();
 
-  const blogPosts = await Post.find({ category: category._id }, "title published publishedDate").exec();
+  const blogPosts = await Post.find({ category: category._id }).exec();
 
   res.status(200).json({ category, blogPosts });
 });
