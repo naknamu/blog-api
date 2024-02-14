@@ -37,8 +37,8 @@ mongoose
 // Set up rate limiter: maximum of 60 requests per minute
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 60, // limit each IP to 60 requests per minute
+  windowMs: 15 * 60 * 1000, // 15 minute
+  max: 100, // limit each IP to 100 requests per 15 minutes
   message: 'Too many requests, please try again later.',
 });
 // Apply rate limiter to all requests
